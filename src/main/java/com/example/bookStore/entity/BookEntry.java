@@ -1,8 +1,17 @@
 package com.example.bookStore.entity;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
+
+@Document(collection = "book_entries")
 public class BookEntry {
 
-    private Long id;
+    @Id
+    private ObjectId id;
+
     private String title;
     private String author;
     private Double price;
@@ -10,6 +19,16 @@ public class BookEntry {
     private String description;
     private Integer quantity;
     private Long categoryId;
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    private LocalDateTime date;
 
     public String getTitle() {
         return title;
@@ -19,11 +38,11 @@ public class BookEntry {
         this.title = title;
     }
 
-    public Long getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
