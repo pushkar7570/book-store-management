@@ -4,6 +4,7 @@ import com.example.bookStore.entity.BookEntry;
 import com.example.bookStore.service.BookStoreService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -22,24 +23,23 @@ public class BookStoreController {
     }
 
     @PostMapping
-    public boolean createEntry(@RequestBody BookEntry myEntry){
+    public ResponseEntity<BookEntry> createEntry(@RequestBody BookEntry myEntry){
         myEntry.setDate(LocalDateTime.now());
-        bookStoreService.saveEntry(myEntry);
-        return true;
+        return bookStoreService.saveEntry(myEntry);
     }
 
     @GetMapping("/id/{myId}")
-    public BookEntry getBookById(@PathVariable ObjectId myId){
-        return bookStoreService.getById(myId).orElse(null);
+    public ResponseEntity<BookEntry> getBookById(@PathVariable ObjectId myId){
+        return bookStoreService.getById(myId);
     }
 
     @DeleteMapping("/id/{myId}")
-    public void deleteBookById(@PathVariable ObjectId myId){
-        bookStoreService.deleteById(myId);
+    public ResponseEntity<?> deleteBookById(@PathVariable ObjectId myId){
+        return bookStoreService.deleteById(myId);
     }
 
     @PutMapping("/id/{myId}")
-    public BookEntry updateEntry(@PathVariable ObjectId myId, @RequestBody BookEntry newEntry){
+    public ResponseEntity<BookEntry> updateEntry(@PathVariable ObjectId myId, @RequestBody BookEntry newEntry){
         return bookStoreService.updateEntry(myId, newEntry);
     }
 }
