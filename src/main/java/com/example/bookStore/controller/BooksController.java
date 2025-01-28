@@ -12,7 +12,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/book")
-public class BookStoreController {
+public class BooksController {
 
     @Autowired
     private BookStoreService bookStoreService;

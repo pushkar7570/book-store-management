@@ -53,7 +53,7 @@ public class BookStoreService {
         BookEntry old = bookStoreRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Book entry with ID " + id + " not found"));
 
         if(old != null){
-            old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().isEmpty() ? newEntry.getTitle() : old.getTitle());
+            old.setTitle(!newEntry.getTitle().isEmpty() ? newEntry.getTitle() : old.getTitle());
             old.setAuthor(newEntry.getAuthor() != null && !newEntry.getAuthor().isEmpty() ? newEntry.getAuthor() : old.getAuthor());
             old.setPrice(newEntry.getPrice() != null && !newEntry.getPrice().isNaN() ? newEntry.getPrice() : old.getPrice());
             old.setRating(newEntry.getRating() != null && !newEntry.getRating().isNaN() ? newEntry.getRating() : old.getRating());

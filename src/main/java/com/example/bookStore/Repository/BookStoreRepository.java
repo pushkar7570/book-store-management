@@ -7,3 +7,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface BookStoreRepository extends MongoRepository<BookEntry, ObjectId> {
 
 }
+
