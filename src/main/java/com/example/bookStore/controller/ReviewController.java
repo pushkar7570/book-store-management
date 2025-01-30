@@ -1,7 +1,7 @@
 //package com.example.bookStore.controller;
 //
 //import com.example.bookStore.entity.BookEntry;
-//import com.example.bookStore.service.BookStoreService;
+//import com.example.bookStore.service.BookService;
 //import org.bson.types.ObjectId;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@
 //public class ReviewController {
 //
 //    @Autowired
-//    private BookStoreService bookStoreService;
+//    private BookService bookStoreService;
 //
 //    @GetMapping()
 //    public List<BookEntry> getAll(){

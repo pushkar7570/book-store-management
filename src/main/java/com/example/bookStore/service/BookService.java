@@ -3,7 +3,7 @@ package com.example.bookStore.service;
 import com.example.bookStore.entity.BookEntry;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.bookStore.Repository.BookStoreRepository;
+import com.example.bookStore.Repository.BookRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class BookStoreService {
+public class BookService {
 
     @Autowired
-    private BookStoreRepository bookStoreRepository;
+    private BookRepository bookRepository;
 
     public ResponseEntity<BookEntry> saveEntry(BookEntry bookEntry){
         try{
             bookEntry.setDate(LocalDateTime.now());
-            bookStoreRepository.save(bookEntry);
+            bookRepository.save(bookEntry);
             return new ResponseEntity<>(bookEntry,HttpStatus.CREATED);
         }catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -29,11 +29,11 @@ public class BookStoreService {
     }
 
     public List<BookEntry> getAll(){
-        return bookStoreRepository.findAll();
+        return bookRepository.findAll();
     }
 
     public ResponseEntity<BookEntry> getById(ObjectId id){
-        Optional<BookEntry> book = bookStoreRepository.findById(id);
+        Optional<BookEntry> book = bookRepository.findById(id);
         if(book.isPresent()){
             return new ResponseEntity<>(book.get(),HttpStatus.OK);
         }
@@ -41,16 +41,16 @@ public class BookStoreService {
     }
 
     public ResponseEntity<?> deleteById(ObjectId id){
-        Optional<BookEntry> book = bookStoreRepository.findById(id);
+        Optional<BookEntry> book = bookRepository.findById(id);
         if(book.isPresent()){
-            bookStoreRepository.deleteById(id);
+            bookRepository.deleteById(id);
             return new ResponseEntity<>(book.get(),HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<BookEntry> updateEntry(ObjectId id, BookEntry newEntry){
-        BookEntry old = bookStoreRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Book entry with ID " + id + " not found"));
+        BookEntry old = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Book entry with ID " + id + " not found"));
 
         if(old != null){
             old.setTitle(!newEntry.getTitle().isEmpty() ? newEntry.getTitle() : old.getTitle());
@@ -60,7 +60,7 @@ public class BookStoreService {
             old.setDescription(newEntry.getDescription() != null && !newEntry.getDescription().isEmpty() ? newEntry.getDescription() : old.getDescription());
             old.setQuantity(newEntry.getQuantity() != null && newEntry.getQuantity() > 0 ? newEntry.getQuantity() : old.getQuantity());
             old.setCategoryId(newEntry.getCategoryId() != null ? newEntry.getCategoryId() : old.getCategoryId());
-            bookStoreRepository.save(old);
+            bookRepository.save(old);
             return new ResponseEntity<>(old, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

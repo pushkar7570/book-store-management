@@ -1,6 +1,8 @@
 package com.example.bookStore.service;
 
+import com.example.bookStore.Repository.BookRepository;
 import com.example.bookStore.Repository.UserRepository;
+import com.example.bookStore.entity.BookEntry;
 import com.example.bookStore.entity.Users;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,14 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    private BookRepository bookRepository;
 
     public ResponseEntity<Users> createUser(Users user){
         try{
@@ -58,5 +62,13 @@ public class UserService {
             return new ResponseEntity<>(userInDB, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<Users> addBookToUser(String userName, List<ObjectId> bookIds){
+        Users user = userRepository.findByUserName(userName);
+
+        Set<BookEntry> books = (Set<BookEntry>) bookRepository.findAllById(bookIds);
+        user.getBooks().addAll(books);
+        return new ResponseEntity<>(user, HttpStatus.NO_CONTENT);
     }
 }

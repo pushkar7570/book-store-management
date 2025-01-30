@@ -1,7 +1,7 @@
 //package com.example.bookStore.controller;
 //
 //import com.example.bookStore.entity.BookEntry;
-//import com.example.bookStore.service.BookStoreService;
+//import com.example.bookStore.service.CartService;
 //import org.bson.types.ObjectId;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.ResponseEntity;
@@ -17,13 +17,13 @@
 //    @Autowired
 //    private CartService cartService;
 //
-//    @GetMapping()
-//    public List<?> getAllCartItems(){
-//        return cartService.getAll();
+//    @PostMapping("/{userName}/{bookId}")
+//    public ResponseEntity<?> addBookToCart(@PathVariable String userName, @PathVariable ObjectId bookId){
+//        return cartService.addBookToCart(userName, bookId);
 //    }
 //
 //    @PostMapping()
-//    public ResponseEntity<?> addBookToCart(){
+//    public ResponseEntity<?> removeBookFromCart(){
 //        return cartService.saveEntry(myEntry);
 //    }
 //
