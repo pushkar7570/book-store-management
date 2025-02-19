@@ -16,13 +16,11 @@ public class Cart {
 
     @Id
     private ObjectId id;
-    @DBRef
-    private String userName;
 
-    private Double amount;
-    private Integer items;
+    private Double amount = 0.0;
+    private Integer items = 0;
 
     @DBRef
-    private List<ObjectId> books = new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
 
 }

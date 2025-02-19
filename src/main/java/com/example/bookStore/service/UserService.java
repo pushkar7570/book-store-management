@@ -1,8 +1,10 @@
 package com.example.bookStore.service;
 
 import com.example.bookStore.Repository.BookRepository;
+import com.example.bookStore.Repository.CartRepository;
 import com.example.bookStore.Repository.UserRepository;
-import com.example.bookStore.entity.BookEntry;
+import com.example.bookStore.entity.Book;
+import com.example.bookStore.entity.Cart;
 import com.example.bookStore.entity.Users;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,21 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    private BookRepository bookRepository;
+    @Autowired
+    private CartRepository cartRepository;
 
     public ResponseEntity<Users> createUser(Users user){
         try{
             user.setCreatedAt(LocalDateTime.now());
-            userRepository.save(user);
-            return new ResponseEntity<>(user,HttpStatus.CREATED);
+
+            Cart cart = new Cart();
+            cart = cartRepository.save(cart);
+            user.setCart(cart);
+
+            Users savedUser = userRepository.save(user);
+            return new ResponseEntity<>(savedUser,HttpStatus.CREATED);
         }catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -64,11 +73,11 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Users> addBookToUser(String userName, List<ObjectId> bookIds){
-        Users user = userRepository.findByUserName(userName);
-
-        Set<BookEntry> books = (Set<BookEntry>) bookRepository.findAllById(bookIds);
-        user.getBooks().addAll(books);
-        return new ResponseEntity<>(user, HttpStatus.NO_CONTENT);
-    }
+//    public ResponseEntity<Users> addBookToUser(String userName, List<ObjectId> bookIds){
+//        Users user = userRepository.findByUserName(userName);
+//
+//        Set<Book> books = (Set<Book>) bookRepository.findAllById(bookIds);
+//        user.getBooks().addAll(books);
+//        return new ResponseEntity<>(user, HttpStatus.NO_CONTENT);
+//    }
 }

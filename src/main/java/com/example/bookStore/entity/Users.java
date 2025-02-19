@@ -20,14 +20,15 @@ public class Users {
     private ObjectId id;
 
     @Indexed(unique = true)
-    @NonNull
     private String userName;
-    @NonNull
     private String password;
     private String phone;
     private LocalDateTime createdAt;
 
     @DBRef
-    private List<BookEntry> books = new ArrayList<>();
+    private Cart cart;
 
+    public Users() {
+        this.cart = new Cart(); // Initialize only when needed
+    }
 }

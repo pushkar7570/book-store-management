@@ -1,6 +1,6 @@
 //package com.example.bookStore.controller;
 //
-//import com.example.bookStore.entity.BookEntry;
+//import com.example.bookStore.entity.Book;
 //import com.example.bookStore.service.BookService;
 //import org.bson.types.ObjectId;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +18,18 @@
 //    private BookService bookStoreService;
 //
 //    @GetMapping()
-//    public List<BookEntry> getAll(){
+//    public List<Book> getAll(){
 //        return bookStoreService.getAll();
 //    }
 //
 //    @PostMapping
-//    public ResponseEntity<BookEntry> createEntry(@RequestBody BookEntry myEntry){
+//    public ResponseEntity<Book> createEntry(@RequestBody Book myEntry){
 //        myEntry.setDate(LocalDateTime.now());
 //        return bookStoreService.saveEntry(myEntry);
 //    }
 //
 //    @GetMapping("/id/{myId}")
-//    public ResponseEntity<BookEntry> getBookById(@PathVariable ObjectId myId){
+//    public ResponseEntity<Book> getBookById(@PathVariable ObjectId myId){
 //        return bookStoreService.getById(myId);
 //    }
 //
@@ -39,7 +39,7 @@
 //    }
 //
 //    @PutMapping("/id/{myId}")
-//    public ResponseEntity<BookEntry> updateEntry(@PathVariable ObjectId myId, @RequestBody BookEntry newEntry){
+//    public ResponseEntity<Book> updateEntry(@PathVariable ObjectId myId, @RequestBody Book newEntry){
 //        return bookStoreService.updateEntry(myId, newEntry);
 //    }
 //}

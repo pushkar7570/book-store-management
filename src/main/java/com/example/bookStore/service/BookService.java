@@ -1,6 +1,6 @@
 package com.example.bookStore.service;
 
-import com.example.bookStore.entity.BookEntry;
+import com.example.bookStore.entity.Book;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.bookStore.Repository.BookRepository;
@@ -18,22 +18,22 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public ResponseEntity<BookEntry> saveEntry(BookEntry bookEntry){
+    public ResponseEntity<Book> saveEntry(Book book){
         try{
-            bookEntry.setDate(LocalDateTime.now());
-            bookRepository.save(bookEntry);
-            return new ResponseEntity<>(bookEntry,HttpStatus.CREATED);
+            book.setDate(LocalDateTime.now());
+            bookRepository.save(book);
+            return new ResponseEntity<>(book,HttpStatus.CREATED);
         }catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public List<BookEntry> getAll(){
+    public List<Book> getAll(){
         return bookRepository.findAll();
     }
 
-    public ResponseEntity<BookEntry> getById(ObjectId id){
-        Optional<BookEntry> book = bookRepository.findById(id);
+    public ResponseEntity<Book> getById(ObjectId id){
+        Optional<Book> book = bookRepository.findById(id);
         if(book.isPresent()){
             return new ResponseEntity<>(book.get(),HttpStatus.OK);
         }
@@ -41,7 +41,7 @@ public class BookService {
     }
 
     public ResponseEntity<?> deleteById(ObjectId id){
-        Optional<BookEntry> book = bookRepository.findById(id);
+        Optional<Book> book = bookRepository.findById(id);
         if(book.isPresent()){
             bookRepository.deleteById(id);
             return new ResponseEntity<>(book.get(),HttpStatus.NO_CONTENT);
@@ -49,8 +49,8 @@ public class BookService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<BookEntry> updateEntry(ObjectId id, BookEntry newEntry){
-        BookEntry old = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Book entry with ID " + id + " not found"));
+    public ResponseEntity<Book> updateEntry(ObjectId id, Book newEntry){
+        Book old = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Book entry with ID " + id + " not found"));
 
         if(old != null){
             old.setTitle(!newEntry.getTitle().isEmpty() ? newEntry.getTitle() : old.getTitle());

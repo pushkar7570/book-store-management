@@ -1,7 +1,6 @@
 package com.example.bookStore.entity;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 @Document(collection = "book_entries")
 @Data
 @NoArgsConstructor
-public class BookEntry {
+public class Book {
 
     @Id
     private ObjectId id;

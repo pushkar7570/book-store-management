@@ -1,6 +1,5 @@
 package com.example.bookStore.controller;
 
-import com.example.bookStore.entity.BookEntry;
 import com.example.bookStore.entity.Users;
 import com.example.bookStore.service.UserService;
 import org.bson.types.ObjectId;
@@ -42,8 +41,8 @@ public class UserController {
         return userService.updateUser(user);
     }
 
-    @PutMapping("/{userName}/addBooks")
-    public ResponseEntity<Users> addBookToUser(@PathVariable String userName, @RequestBody List<ObjectId> bookIds){
-        return userService.addBookToUser(userName, bookIds);
-    }
+//    @PutMapping("/{userName}/addBooks")
+//    public ResponseEntity<Users> addBookToUser(@PathVariable String userName, @RequestBody List<ObjectId> bookIds){
+//        return userService.addBookToUser(userName, bookIds);
+//    }
 }
