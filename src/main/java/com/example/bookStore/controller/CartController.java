@@ -1,6 +1,7 @@
 package com.example.bookStore.controller;
 
 import com.example.bookStore.entity.Book;
+import com.example.bookStore.entity.Cart;
 import com.example.bookStore.service.CartService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,17 @@ public class CartController {
     }
 
     @GetMapping("/total_price/{userName}")
-    public ResponseEntity<?> getTotalPrice(@PathVariable String userName){
+    public ResponseEntity<?> getTotalPrice(@PathVariable String userName) {
         return cartService.getTotalPrice(userName);
     }
 
-//    @DeleteMapping("/id/{myId}")
-//    public ResponseEntity<?> deleteBookFromCart(@PathVariable ObjectId myId){
-//        return cartService.deleteById(myId);
-//    }
-//
-//    @PutMapping("/id/{myId}")
-//    public ResponseEntity<Book> deleteCart(@PathVariable ObjectId myId, @RequestBody Book newEntry){
-//        return cartService.updateEntry(myId, newEntry);
-//    }
+    @PutMapping("/checkout/{userName}")
+    public ResponseEntity<?> checkoutCart(@PathVariable String userName){
+        return cartService.checkoutCart(userName);
+    }
+
+    @GetMapping("/{userName}")
+    public ResponseEntity<Cart> getCartByUser(@PathVariable String userName){
+        return cartService.getCartByUser(userName);
+    }
 }

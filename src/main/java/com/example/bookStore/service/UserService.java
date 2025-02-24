@@ -2,9 +2,11 @@ package com.example.bookStore.service;
 
 import com.example.bookStore.Repository.BookRepository;
 import com.example.bookStore.Repository.CartRepository;
+import com.example.bookStore.Repository.LibraryRepository;
 import com.example.bookStore.Repository.UserRepository;
 import com.example.bookStore.entity.Book;
 import com.example.bookStore.entity.Cart;
+import com.example.bookStore.entity.Library;
 import com.example.bookStore.entity.Users;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private LibraryRepository libraryRepository;
 
     public ResponseEntity<Users> createUser(Users user){
         try{
@@ -31,6 +35,10 @@ public class UserService {
             Cart cart = new Cart();
             cart = cartRepository.save(cart);
             user.setCart(cart);
+
+            Library library = new Library();
+            library = libraryRepository.save(library);
+            user.setLibrary(library);
 
             Users savedUser = userRepository.save(user);
             return new ResponseEntity<>(savedUser,HttpStatus.CREATED);

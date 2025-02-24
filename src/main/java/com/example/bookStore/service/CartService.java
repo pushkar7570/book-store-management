@@ -2,15 +2,20 @@ package com.example.bookStore.service;
 
 import com.example.bookStore.Repository.BookRepository;
 import com.example.bookStore.Repository.CartRepository;
+import com.example.bookStore.Repository.LibraryRepository;
 import com.example.bookStore.Repository.UserRepository;
 import com.example.bookStore.entity.Book;
 import com.example.bookStore.entity.Cart;
+import com.example.bookStore.entity.Library;
 import com.example.bookStore.entity.Users;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Component
@@ -22,6 +27,8 @@ public class CartService {
     private BookRepository bookRepository;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private LibraryRepository libraryRepository;
 
     public ResponseEntity<?> addBookToCart(String userName, ObjectId bookId) {
         Users user = userRepository.findByUserName(userName);
@@ -67,6 +74,32 @@ public class CartService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    public ResponseEntity<?> checkoutCart(String userName){
+        Users user = userRepository.findByUserName(userName);
+
+        Cart cart = user.getCart();
+
+        if (cart.getBooks() != null) {
+            List<Book> books = new ArrayList<>();
+            books = cart.getBooks();
+
+            Library library = new Library();
+            library.setBooks(books);
+            library.setValue(library.getValue() + cart.getAmount());
+            library.setItems(library.getItems() + cart.getItems());
+
+            cart.setAmount(0.0);
+            cart.setItems(0);
+            cart.getBooks().clear();
+
+            libraryRepository.save(library);
+            cartRepository.save(cart);
+            return new ResponseEntity<>("Checked out!!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Cart is already empty!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
 //    public ResponseEntity<Users> updateQuantity(Users user){
 //        Users userInDB = userRepository.findByUserName(user.getUserName());
 //
@@ -82,11 +115,10 @@ public class CartService {
 //        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //    }
 
-//    public ResponseEntity<Users> getCartByUser(String userName, List<ObjectId> bookIds){
-//        Users user = userRepository.findByUserName(userName);
-//
-//        Set<Book> books = (Set<Book>) bookRepository.findAllById(bookIds);
-//        user.getBooks().addAll(books);
-//        return new ResponseEntity<>(user, HttpStatus.NO_CONTENT);
-//    }
+    public ResponseEntity<Cart> getCartByUser(String userName){
+        Users user = userRepository.findByUserName(userName);
+        if(user != null)
+            return new ResponseEntity<>(user.getCart(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

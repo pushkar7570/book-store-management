@@ -28,6 +28,9 @@ public class Users {
     @DBRef
     private Cart cart;
 
+    @DBRef
+    private Library library;
+
     public Users() {
         this.cart = new Cart(); // Initialize only when needed
     }
